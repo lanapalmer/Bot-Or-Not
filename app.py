@@ -5,7 +5,8 @@ import pickle
 import numpy as np
 
 # load model
-model = pickle.load(open('dummyModel.pkl','rb'))
+model = pickle.load(open('Models/dummyModel.pkl','rb'))
+scaler = pickle.load(open('Models/scaler.pkl','rb'))
 
 # app
 app = Flask(__name__)
@@ -35,11 +36,9 @@ def predict():
     df2 = df.drop(['Comment', 'CommentClean', 'Subreddit'], axis=1)
 
     #Instantiate MinMaxScaler
-    mm_scaler = preprocessing.MinMaxScaler()
+    df2 = scaler.transform(df2)
 
     #Fit and Transform X_train
-    X_train_minmax = mm_scaler.fit_transform(df2)
-
     temp = np.array(df2).reshape((1, -1))
 
     
